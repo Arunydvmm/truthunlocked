@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/truth_unlocked_upgraded.html"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+# ===== Server Configuration =====
+PORT=3000
+NODE_ENV=development
+
+# ===== JWT Security =====
+# Generate a strong secret: node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+JWT_SECRET=your-super-secret-key-change-this-immediately
+
+# ===== Database Configuration =====
+# Local Development (MongoDB)
+MONGODB_URI=mongodb://localhost:27017/truth-unlocked
+
+# For MongoDB Atlas (Cloud):
+# MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/truth-unlocked?retryWrites=true&w=majority
+
+# For MongoDB with Authentication:
+# MONGODB_URI=mongodb://username:password@localhost:27017/truth-unlocked
+
+# ===== File Upload Configuration =====
+MAX_FILE_SIZE=10485760
+UPLOAD_DIR=./uploads
+
+# ===== Deployment (Optional) =====
+# For Heroku, Railway, Render deployment
+# These are usually set automatically by the platform
+# FRONTEND_URL=https://yourdomain.com
+# API_URL=https://api.yourdomain.com

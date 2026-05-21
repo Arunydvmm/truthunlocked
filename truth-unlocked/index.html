@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#0D0D0D;--paper:#F5F2EC;--accent:#C41E1E;--accent2:#1A4A8A;
+  --muted:#6B6560;--border:#D8D4CC;--card:#FDFAF5;
+  --admin-bg:#F0F2F5;--admin-sidebar:#1A1F2E;--admin-accent:#3B6FD4;
+  --success:#22C55E;--error:#DC2626;--warning:#F59E0B;
+}
+body{background:var(--paper);color:var(--ink);font-family:'DM Sans',sans-serif;min-height:100vh}
+
+/* ===== SCREENS ===== */
+.screen{display:none}
+.screen.active{display:block}
+
+/* ===== TOP NAV (website) ===== */
+.topbar{background:var(--ink);color:#fff;text-align:center;padding:7px;font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+.topbar span{color:#E8C87A}
+.masthead{border-bottom:3px solid var(--ink);padding:16px 40px 12px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.logo{font-family:'Playfair Display',serif;font-size:38px;font-weight:900;letter-spacing:-1.5px;line-height:1}
+.logo span{color:var(--accent)}
+.tagline{font-family:'DM Sans',sans-serif;font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-top:3px}
+.site-nav{display:flex;gap:0;border:1px solid var(--border);border-radius:4px;overflow:hidden}
+.site-nav a{padding:7px 13px;font-size:12px;font-weight:500;color:var(--ink);text-decoration:none;cursor:pointer;border-right:1px solid var(--border);transition:background .15s}
+.site-nav a:last-child{border-right:none}
+.site-nav a:hover,.site-nav a.active{background:var(--ink);color:#fff}
+.admin-btn{padding:8px 16px;background:var(--admin-accent);color:#fff;border:none;border-radius:4px;font-size:12px;font-weight:600;cursor:pointer;letter-spacing:.04em;transition:background .2s}
+.admin-btn:hover{background:#2a5ec4}
+.datebar{background:var(--ink);color:#888;padding:5px 40px;font-size:11px;display:flex;justify-content:space-between}
+.datebar span{color:#fff}
+
+/* ===== WEBSITE LAYOUT ===== */
+.w-container{max-width:1100px;margin:0 auto;padding:0 40px}
+.w-layout{display:grid;grid-template-columns:1fr 290px;gap:32px;margin-top:24px}
+.hero{border-bottom:2px solid var(--ink);padding-bottom:20px;margin-bottom:20px}
+.hero-label{font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.hero-img{width:100%;height:200px;background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460);border-radius:4px;margin-bottom:14px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.hero-img img{width:100%;height:100%;object-fit:cover}
+.hero-img-text{color:#fff;font-family:'Playfair Display',serif;font-size:44px;font-weight:900;opacity:.12;letter-spacing:-2px}
+.hero-title{font-family:'Playfair Display',serif;font-size:34px;font-weight:900;line-height:1.1;letter-spacing:-.5px;margin-bottom:10px;cursor:pointer}
+.hero-title:hover{color:var(--accent2)}
+.hero-excerpt{font-size:15px;line-height:1.7;color:#333;font-style:italic}
+.hero-meta{display:flex;gap:12px;margin-top:10px;font-size:12px;color:var(--muted);align-items:center}
+.tag{background:var(--accent);color:#fff;padding:2px 8px;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;border-radius:2px}
+.section-title{font-size:11px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;padding-bottom:7px;border-bottom:2px solid var(--ink);margin-bottom:14px}
+.articles-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:20px}
+.art-card{cursor:pointer;border-bottom:1px solid var(--border);padding-bottom:14px}
+.art-card:hover .art-title{color:var(--accent2)}
+.art-cat{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
+.art-title{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;line-height:1.3;margin-bottom:5px;transition:color .15s}
+.art-excerpt{font-size:13px;line-height:1.6;color:#555;font-style:italic}
+.art-meta-row{font-size:11px;color:var(--muted);margin-top:5px;display:flex;gap:10px}
+.sidebar-title{font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;padding-bottom:7px;border-bottom:2px solid var(--ink);margin-bottom:10px}
+.sidebar-section{margin-bottom:24px}
+.trend-item{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);cursor:pointer;align-items:flex-start}
+.trend-item:hover .trend-title{color:var(--accent2)}
+.trend-num{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--border);line-height:1;flex-shrink:0;width:26px}
+.trend-title{font-family:'Source Serif 4',serif;font-size:13px;font-weight:600;line-height:1.35;transition:color .15s}
+.trend-cat{font-size:10px;color:var(--muted);margin-top:2px}
+.newsletter-box{background:var(--ink);color:#fff;padding:16px;border-radius:4px}
+.newsletter-box h3{font-family:'Playfair Display',serif;font-size:17px;margin-bottom:5px}
+.newsletter-box p{font-size:12px;color:#aaa;margin-bottom:10px;line-height:1.6}
+.newsletter-box input{width:100%;padding:8px 11px;border:none;border-radius:3px;font-size:12px;margin-bottom:7px;background:#fff;color:var(--ink);outline:none}
+.newsletter-box button{width:100%;padding:8px;background:var(--accent);color:#fff;border:none;border-radius:3px;font-size:12px;font-weight:600;cursor:pointer;text-transform:uppercase;letter-spacing:.05em;transition:background .2s}
+.newsletter-box button:hover{background:#a01818}
+.article-view-inner{max-width:680px;margin:0 auto;padding:20px 0 40px}
+.back-btn{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--muted);cursor:pointer;margin-bottom:20px;padding:6px 13px;border:1px solid var(--border);border-radius:3px;transition:all .15s}
+.back-btn:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+.article-body h1{font-family:'Playfair Display',serif;font-size:34px;font-weight:900;line-height:1.15;letter-spacing:-.5px;margin-bottom:14px}
+.article-body .byline{font-size:12px;color:var(--muted);margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.article-body p{font-family:'Source Serif 4',serif;font-size:16px;line-height:1.8;margin-bottom:16px;color:#2a2a2a}
+.article-body h2{font-family:'Playfair Display',serif;font-size:21px;font-weight:700;margin:24px 0 10px}
+.article-body blockquote{border-left:4px solid var(--accent);padding-left:18px;margin:20px 0;font-style:italic;font-size:16px;color:#444;line-height:1.7;font-family:'Source Serif 4',serif}
+.article-img{width:100%;margin:20px 0;border-radius:4px}
+footer{background:var(--ink);color:#aaa;padding:24px 40px;margin-top:36px;font-size:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+footer .f-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:900;color:#fff}
+footer .f-logo span{color:var(--accent)}
+footer .f-links{display:flex;gap:14px}
+footer .f-links a{color:#aaa;text-decoration:none;cursor:pointer}
+footer .f-links a:hover{color:#fff}
+
+/* ===== LOGIN SCREEN ===== */
+.login-screen{min-height:100vh;background:var(--admin-sidebar);display:flex;align-items:center;justify-content:center}
+.login-box{background:#fff;border-radius:10px;padding:40px;width:360px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.login-logo{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;text-align:center;margin-bottom:4px}
+.login-logo span{color:var(--accent)}
+.login-sub{text-align:center;font-size:12px;color:var(--muted);margin-bottom:28px}
+.login-field{margin-bottom:16px}
+.login-field label{display:block;font-size:12px;font-weight:600;color:var(--ink);margin-bottom:5px;letter-spacing:.04em}
+.login-field input{width:100%;padding:10px 13px;border:1.5px solid var(--border);border-radius:5px;font-size:13px;outline:none;transition:border-color .15s}
+.login-field input:focus{border-color:var(--admin-accent)}
+.login-btn{width:100%;padding:11px;background:var(--admin-accent);color:#fff;border:none;border-radius:5px;font-size:14px;font-weight:600;cursor:pointer;margin-top:6px;transition:background .2s}
+.login-btn:hover{background:#2a5ec4}
+.login-err{color:var(--accent);font-size:12px;text-align:center;margin-top:8px;display:none}
+.login-hint{text-align:center;font-size:11px;color:var(--muted);margin-top:14px}
+.api-status{text-align:center;font-size:11px;margin-top:14px;padding:8px;border-radius:4px}
+.api-status.error{background:#ffebee;color:var(--error)}
+.api-status.success{background:#f0f9ff;color:var(--success)}
+
+/* ===== ADMIN PANEL ===== */
+.admin-layout{display:flex;min-height:100vh;background:var(--admin-bg)}
+.admin-sidebar{width:220px;background:var(--admin-sidebar);color:#fff;flex-shrink:0;padding:0;display:flex;flex-direction:column}
+.admin-sidebar-logo{padding:20px 18px 16px;border-bottom:1px solid rgba(255,255,255,.08)}
+.admin-sidebar-logo .logo-text{font-family:'Playfair Display',serif;font-size:18px;font-weight:900}
+.admin-sidebar-logo .logo-text span{color:#E87A7A}
+.admin-sidebar-logo .role-badge{font-size:10px;color:#888;margin-top:3px;letter-spacing:.06em;text-transform:uppercase}
+.admin-menu{padding:12px 0;flex:1}
+.admin-menu-item{display:flex;align-items:center;gap:10px;padding:10px 18px;font-size:13px;color:#9CA3AF;cursor:pointer;transition:all .15s;border-left:3px solid transparent}
+.admin-menu-item:hover{background:rgba(255,255,255,.05);color:#fff}
+.admin-menu-item.active{background:rgba(59,111,212,.15);color:#fff;border-left-color:var(--admin-accent)}
+.admin-menu-item .icon{font-size:16px;width:18px;text-align:center}
+.admin-sidebar-footer{padding:14px 18px;border-top:1px solid rgba(255,255,255,.08)}
+.sidebar-logout{display:flex;align-items:center;gap:8px;font-size:12px;color:#9CA3AF;cursor:pointer;transition:color .15s}
+.sidebar-logout:hover{color:#fff}
+.admin-main{flex:1;overflow:auto}
+.admin-topbar{background:#fff;border-bottom:1px solid #E5E7EB;padding:14px 28px;display:flex;justify-content:space-between;align-items:center}
+.admin-topbar h1{font-size:18px;font-weight:600;color:var(--ink)}
+.admin-topbar .breadcrumb{font-size:12px;color:var(--muted)}
+.view-site-btn{padding:7px 14px;border:1.5px solid var(--border);border-radius:5px;font-size:12px;font-weight:500;cursor:pointer;background:#fff;transition:all .15s}
+.view-site-btn:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+.admin-content{padding:24px 28px}
+
+/* DASHBOARD */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.stat-card{background:#fff;border-radius:8px;padding:18px;border:1px solid #E5E7EB}
+.stat-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.stat-value{font-size:28px;font-weight:900;font-family:'Playfair Display',serif}
+
+/* ARTICLES TABLE */
+.table-container{background:#fff;border-radius:8px;border:1px solid #E5E7EB;overflow:hidden}
+.table-header{display:grid;grid-template-columns:60px 1fr 120px 100px 80px 80px;gap:12px;padding:16px 18px;background:#F9FAFB;border-bottom:1px solid #E5E7EB;font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.05em;text-transform:uppercase}
+.table-row{display:grid;grid-template-columns:60px 1fr 120px 100px 80px 80px;gap:12px;padding:14px 18px;border-bottom:1px solid #E5E7EB;align-items:center;font-size:13px;transition:background .15s}
+.table-row:hover{background:#F9FAFB}
+.status-badge{font-size:10px;font-weight:600;padding:4px 8px;border-radius:3px;text-transform:uppercase;letter-spacing:.05em}
+.status-badge.published{background:#D1FAE522;color:#059669}
+.status-badge.draft{background:#F3E8FF22;color:#7C3AED}
+.btn-small{padding:6px 10px;border:1px solid #E5E7EB;border-radius:4px;font-size:11px;font-weight:500;cursor:pointer;background:#fff;transition:all .15s}
+.btn-small:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+.btn-danger{background:#fee2e2;color:var(--error);border-color:var(--error)}
+.btn-danger:hover{background:var(--error);color:#fff}
+
+/* FORM */
+.form-group{margin-bottom:16px}
+.form-label{display:block;font-size:12px;font-weight:600;margin-bottom:6px;color:var(--ink)}
+.form-input,.form-textarea,.form-select{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:5px;font-size:13px;font-family:inherit;outline:none;transition:border-color .15s}
+.form-input:focus,.form-textarea:focus,.form-select:focus{border-color:var(--admin-accent)}
+.form-textarea{min-height:120px;resize:vertical}
+.form-file{display:flex;align-items:center;gap:12px}
+.file-input{flex:1}
+.file-preview{width:120px;height:120px;background:#f0f0f0;border-radius:4px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.file-preview img{width:100%;height:100%;object-fit:cover}
+.form-actions{display:flex;gap:12px;margin-top:24px}
+.btn-primary{padding:10px 20px;background:var(--admin-accent);color:#fff;border:none;border-radius:5px;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s}
+.btn-primary:hover{background:#2a5ec4}
+.btn-secondary{padding:10px 20px;background:#fff;color:var(--ink);border:1.5px solid var(--border);border-radius:5px;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s}
+.btn-secondary:hover{background:var(--ink);color:#fff}
+
+/* TOAST */
+.toast-container{position:fixed;top:20px;right:20px;z-index:9999}
+.toast{background:#fff;padding:14px 18px;border-radius:6px;margin-bottom:10px;box-shadow:0 4px 12px rgba(0,0,0,.15);font-size:13px;display:flex;align-items:center;gap:10px;animation:slideIn .3s ease-out}
+.toast.success{border-left:4px solid var(--success)}
+.toast.error{border-left:4px solid var(--error)}
+.toast.warning{border-left:4px solid var(--warning)}
+@keyframes slideIn{from{transform:translateX(400px);opacity:0}to{transform:translateX(0);opacity:1}}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .w-layout{grid-template-columns:1fr}
+  .articles-grid{grid-template-columns:1fr}
+  .admin-layout{flex-direction:column}
+  .admin-sidebar{width:100%;border-right:none;border-bottom:1px solid rgba(255,255,255,.08)}
+  .admin-menu{display:flex;overflow-x:auto;padding:0}
+  .admin-menu-item{flex-shrink:0;border-left:none;border-bottom:3px solid transparent}
+  .admin-menu-item.active{border-left:none;border-bottom-color:var(--admin-accent)}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .table-header,.table-row{grid-template-columns:1fr}
+}
+
+/* LOADING & SPINNER */
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid #f3f3f3;border-top:2px solid var(--admin-accent);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+.loading{text-align:center;padding:20px;color:var(--muted)}
+
+</style>
+</head>
+<body>
+
+<!-- ===== WEBSITE SCREEN ===== -->
+<div id="website-screen" class="screen active">
+  <div class="topbar">TRUTH <span>UNLOCKED</span> — Independent Journalism & Analysis</div>
+  
+  <div class="masthead">
+    <div>
+      <div class="logo">TRUTH <span>UNLOCKED</span></div>
+      <div class="tagline">Unbiased • Investigative • Verified</div>
+    </div>
+    <div class="site-nav">
+      <a class="active" onclick="viewArticles('all')">All Articles</a>
+      <a onclick="viewArticles('politics')">Politics</a>
+      <a onclick="viewArticles('tech')">Technology</a>
+      <a onclick="viewArticles('business')">Business</a>
+      <a class="admin-btn" onclick="showScreen('login')">Admin</a>
+    </div>
+  </div>
+  
+  <div class="datebar">
+    <span id="current-date"></span>
+    <span id="read-count">Ready to Load</span>
+  </div>
+  
+  <div class="w-container">
+    <div class="w-layout">
+      <div id="articles-container"></div>
+      
+      <div id="sidebar"></div>
+    </div>
+  </div>
+  
+  <footer>
+    <div>
+      <div class="f-logo">TRUTH <span>UNLOCKED</span></div>
+      <p style="font-size:11px;margin-top:4px">© 2024 Truth Unlocked. All rights reserved.</p>
+    </div>
+    <div class="f-links">
+      <a onclick="alert('About page')">About</a>
+      <a onclick="alert('Contact form')">Contact</a>
+      <a onclick="alert('Privacy policy')">Privacy</a>
+      <a onclick="alert('RSS Feed')">RSS</a>
+    </div>
+  </footer>
+</div>
+
+<!-- ===== ARTICLE VIEW SCREEN ===== -->
+<div id="article-screen" class="screen">
+  <div class="topbar">TRUTH <span>UNLOCKED</span> — Independent Journalism & Analysis</div>
+  
+  <div class="masthead">
+    <div>
+      <div class="logo">TRUTH <span>UNLOCKED</span></div>
+      <div class="tagline">Unbiased • Investigative • Verified</div>
+    </div>
+    <div class="site-nav">
+      <a onclick="showScreen('website')">← Back to Articles</a>
+      <a class="admin-btn" onclick="showScreen('login')">Admin</a>
+    </div>
+  </div>
+  
+  <div class="datebar">
+    <span id="article-date"></span>
+  </div>
+  
+  <div class="w-container">
+    <div class="article-view-inner">
+      <button class="back-btn" onclick="showScreen('website')">← Back to Articles</button>
+      <div class="article-body" id="article-body"></div>
+    </div>
+  </div>
+  
+  <footer>
+    <div>
+      <div class="f-logo">TRUTH <span>UNLOCKED</span></div>
+      <p style="font-size:11px;margin-top:4px">© 2024 Truth Unlocked. All rights reserved.</p>
+    </div>
+    <div class="f-links">
+      <a onclick="alert('About page')">About</a>
+      <a onclick="alert('Contact form')">Contact</a>
+      <a onclick="alert('Privacy policy')">Privacy</a>
+      <a onclick="alert('RSS Feed')">RSS</a>
+    </div>
+  </footer>
+</div>
+
+<!-- ===== LOGIN SCREEN ===== -->
+<div id="login-screen" class="screen">
+  <div class="login-screen">
+    <div class="login-box">
+      <div class="login-logo">TRUTH <span>UNLOCKED</span></div>
+      <div class="login-sub">Admin Portal</div>
+      
+      <div class="login-field">
+        <label>Email Address</label>
+        <input id="login-email" type="email" placeholder="admin@truthunlocked.com">
+      </div>
+      
+      <div class="login-field">
+        <label>Password</label>
+        <input id="login-password" type="password" placeholder="••••••••">
+      </div>
+      
+      <button class="login-btn" onclick="attemptLogin()">Sign In with Backend</button>
+      <div id="login-error" class="login-err"></div>
+      <div id="api-status" class="api-status" style="display:none;margin-top:12px"></div>
+      
+      <div class="login-hint">Backend Status: <span id="api-indicator">Checking...</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ADMIN SCREEN ===== -->
+<div id="admin-screen" class="screen">
+  <div class="admin-layout">
+    <!-- SIDEBAR -->
+    <div class="admin-sidebar">
+      <div class="admin-sidebar-logo">
+        <div class="logo-text">TRUTH <span>UNLOCKED</span></div>
+        <div class="role-badge">Administrator</div>
+      </div>
+      
+      <div class="admin-menu">
+        <div class="admin-menu-item active" onclick="adminNav('dashboard')">
+          <span class="icon">📊</span> Dashboard
+        </div>
+        <div class="admin-menu-item" onclick="adminNav('articles')">
+          <span class="icon">📰</span> Articles
+        </div>
+        <div class="admin-menu-item" onclick="adminNav('media')">
+          <span class="icon">🖼️</span> Media Library
+        </div>
+        <div class="admin-menu-item" onclick="adminNav('analytics')">
+          <span class="icon">📈</span> Analytics
+        </div>
+        <div class="admin-menu-item" onclick="adminNav('audit')">
+          <span class="icon">🔐</span> Audit Log
+        </div>
+      </div>
+      
+      <div class="admin-sidebar-footer">
+        <div class="sidebar-logout" onclick="logout()">
+          <span style="font-size:14px">🚪</span> Logout
+        </div>
+      </div>
+    </div>
+    
+    <!-- MAIN CONTENT -->
+    <div class="admin-main">
+      <div class="admin-topbar">
+        <div>
+          <h1 id="admin-title">Dashboard</h1>
+          <div class="breadcrumb" id="admin-breadcrumb">Welcome back</div>
+        </div>
+        <button class="view-site-btn" onclick="showScreen('website')">← View Site</button>
+      </div>
+      
+      <div class="admin-content" id="admin-body"></div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toast-container"></div>
+
+<script>
+const API_URL = localStorage.getItem('api_url') || 'http://localhost:3000';
+let authToken = localStorage.getItem('auth_token');
+let currentUser = null;
+let articles = [];
+let mediaItems = [];
+
+// ===== STARTUP =====
+function init(){
+  setDate();
+  checkApiStatus();
+  if(authToken) {
+    validateToken();
+  } else {
+    showScreen('website');
+    loadArticles();
+  }
+}
+
+function setDate(){
+  const d = new Date().toLocaleDateString('en-IN', {weekday:'long', year:'numeric', month:'long', day:'numeric'});
+  document.querySelectorAll('#current-date, #article-date').forEach(el => el.textContent = d);
+}
+
+// ===== API STATUS =====
+function checkApiStatus(){
+  fetch(`${API_URL}/api/health`, {signal: AbortSignal.timeout(3000)})
+    .then(() => {
+      document.getElementById('api-indicator').textContent = '✅ Online';
+      document.getElementById('api-indicator').style.color = 'var(--success)';
+    })
+    .catch(() => {
+      document.getElementById('api-indicator').textContent = '⚠️ Offline (Local Mode)';
+      document.getElementById('api-indicator').style.color = '#F59E0B';
+    });
+}
+
+// ===== AUTHENTICATION =====
+async function attemptLogin(){
+  const email = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+  const errEl = document.getElementById('login-error');
+  const statusEl = document.getElementById('api-status');
+  
+  if(!email || !password){
+    errEl.textContent = '⚠ Email and password required';
+    errEl.style.display = 'block';
+    return;
+  }
+  
+  try {
+    document.querySelector('.login-btn').disabled = true;
+    document.querySelector('.login-btn').textContent = 'Signing in...';
+    
+    const response = await fetch(`${API_URL}/api/auth/login`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({email, password}),
+      signal: AbortSignal.timeout(10000)
+    });
+    
+    const data = await response.json();
+    
+    if(!response.ok){
+      throw new Error(data.message || 'Login failed');
+    }
+    
+    // Store token
+    authToken = data.token;
+    currentUser = data.user;
+    localStorage.setItem('auth_token', authToken);
+    localStorage.setItem('api_url', API_URL);
+    
+    errEl.style.display = 'none';
+    statusEl.innerHTML = '<div style="color:var(--success)">✅ Authenticated! Redirecting...</div>';
+    statusEl.style.display = 'block';
+    
+    setTimeout(() => {
+      showScreen('admin');
+      loadAdminData();
+      adminNav('dashboard');
+    }, 1500);
+    
+  } catch(err) {
+    console.error('Login error:', err);
+    errEl.textContent = err.message || 'Connection failed. Check API URL.';
+    errEl.style.display = 'block';
+    statusEl.innerHTML = `<div class="error">❌ ${err.message}</div>`;
+    statusEl.style.display = 'block';
+  } finally {
+    document.querySelector('.login-btn').disabled = false;
+    document.querySelector('.login-btn').textContent = 'Sign In with Backend';
+  }
+}
+
+function validateToken(){
+  fetch(`${API_URL}/api/auth/validate`, {
+    headers: {'Authorization': `Bearer ${authToken}`},
+    signal: AbortSignal.timeout(5000)
+  })
+  .then(r => r.json())
+  .then(data => {
+    if(data.valid){
+      currentUser = data.user;
+      showScreen('admin');
+      loadAdminData();
+      adminNav('dashboard');
+    } else {
+      logout();
+    }
+  })
+  .catch(() => {
+    // Try local session
+    loadArticles();
+    showScreen('website');
+  });
+}
+
+function logout(){
+  authToken = null;
+  currentUser = null;
+  localStorage.removeItem('auth_token');
+  document.getElementById('login-email').value = '';
+  document.getElementById('login-password').value = '';
+  showScreen('login');
+  showToast('Logged out successfully', 'success');
+}
+
+// ===== ARTICLE MANAGEMENT =====
+async function loadArticles(){
+  try {
+    const response = await fetch(`${API_URL}/api/articles`, {
+      signal: AbortSignal.timeout(5000)
+    });
+    const data = await response.json();
+    articles = data.filter(a => a.status === 'published');
+    renderWebsite();
+  } catch(err) {
+    console.warn('Failed to load articles:', err);
+    // Use demo data
+    articles = [
+      {id:1, title:'Breaking: Major Investigation Reveals Corporate Corruption', cat:'Politics', excerpt:'A sweeping new report uncovers unprecedented levels of...', body:'<p>Full article content here</p>', date:'May 20, 2024', views: 2410, featured: true, image: null},
+      {id:2, title:'Tech Giants Face Stricter Regulations', cat:'Technology', excerpt:'Lawmakers push for comprehensive digital privacy reforms...', body:'<p>Article content</p>', date:'May 19, 2024', views: 1856, featured: false, image: null}
+    ];
+    renderWebsite();
+  }
+}
+
+async function loadAdminData(){
+  if(!authToken) return;
+  
+  try {
+    const articlesRes = await fetch(`${API_URL}/api/articles/admin`, {
+      headers: {'Authorization': `Bearer ${authToken}`},
+      signal: AbortSignal.timeout(5000)
+    });
+    articles = (await articlesRes.json()) || [];
+  } catch(err) {
+    console.error('Failed to load admin articles:', err);
+  }
+  
+  try {
+    const mediaRes = await fetch(`${API_URL}/api/media`, {
+      headers: {'Authorization': `Bearer ${authToken}`},
+      signal: AbortSignal.timeout(5000)
+    });
+    mediaItems = (await mediaRes.json()) || [];
+  } catch(err) {
+    console.error('Failed to load media:', err);
+  }
+}
+
+function renderWebsite(){
+  const container = document.getElementById('articles-container');
+  
+  if(articles.length === 0){
+    container.innerHTML = '<div class="loading">📭 No articles published yet</div>';
+    return;
+  }
+  
+  const featured = articles.filter(a => a.featured)?.[0];
+  let html = '';
+  
+  if(featured){
+    html += `
+      <div class="hero">
+        <div class="hero-label">Featured</div>
+        ${featured.image ? `<div class="hero-img"><img src="${featured.image}" alt="Hero"></div>` : '<div class="hero-img"><div class="hero-img-text">▪</div></div>'}
+        <div class="hero-title" onclick="viewArticle(${featured.id})">${featured.title}</div>
+        <p class="hero-excerpt">${featured.excerpt}</p>
+        <div class="hero-meta">
+          <span class="tag">${featured.cat}</span>
+          <span>${featured.date} • ${featured.views} views</span>
+        </div>
+      </div>
+    `;
+  }
+  
+  html += '<div class="section-title">Latest Articles</div>';
+  html += '<div class="articles-grid">';
+  
+  articles.filter(a => !a.featured).slice(0,6).forEach(a => {
+    html += `
+      <div class="art-card" onclick="viewArticle(${a.id})">
+        <div class="art-cat">${a.cat}</div>
+        <div class="art-title">${a.title}</div>
+        <p class="art-excerpt">${a.excerpt}</p>
+        <div class="art-meta-row">
+          <span>${a.date}</span>
+          <span>${a.views} views</span>
+        </div>
+      </div>
+    `;
+  });
+  
+  html += '</div>';
+  container.innerHTML = html;
+  
+  document.getElementById('read-count').textContent = `${articles.length} published`;
+}
+
+function viewArticle(id){
+  const article = articles.find(a => a.id === id);
+  if(!article) return;
+  
+  document.getElementById('article-body').innerHTML = `
+    <h1>${article.title}</h1>
+    <div class="byline">${article.date} • ${article.views} views • By Truth Unlocked</div>
+    ${article.image ? `<img src="${article.image}" class="article-img" alt="Article">` : ''}
+    ${article.body}
+  `;
+  showScreen('article');
+}
+
+// ===== ADMIN PANEL =====
+function adminNav(page){
+  document.querySelectorAll('.admin-menu-item').forEach(m => m.classList.remove('active'));
+  event.target.closest('.admin-menu-item')?.classList.add('active');
+  
+  const titles = {
+    dashboard: '📊 Dashboard',
+    articles: '📰 Article Manager',
+    media: '🖼️ Media Library',
+    analytics: '📈 Analytics',
+    audit: '🔐 Audit Log'
+  };
+  
+  document.getElementById('admin-title').textContent = titles[page] || 'Admin';
+  document.getElementById('admin-breadcrumb').textContent = page.charAt(0).toUpperCase() + page.slice(1);
+  
+  let html = '';
+  
+  if(page === 'dashboard'){
+    html = `
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Published Articles</div>
+          <div class="stat-value">${articles.filter(a => a.status === 'published').length}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Draft Articles</div>
+          <div class="stat-value">${articles.filter(a => a.status === 'draft').length}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Total Views</div>
+          <div class="stat-value">${articles.reduce((s, a) => s + (a.views || 0), 0)}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Media Files</div>
+          <div class="stat-value">${mediaItems.length}</div>
+        </div>
+      </div>
+      <div style="background:#fff;border-radius:8px;padding:20px;border:1px solid #E5E7EB">
+        <h3 style="font-size:14px;font-weight:600;margin-bottom:12px">Recent Articles</h3>
+        <div id="recent-articles"></div>
+      </div>
+    `;
+    document.getElementById('admin-body').innerHTML = html;
+    
+    const recent = articles.sort((a,b) => new Date(b.date) - new Date(a.date)).slice(0, 5);
+    const recentsHtml = recent.length === 0 ? '<p style="font-size:13px;color:var(--muted)">No articles yet</p>' :
+      recent.map(a => `
+        <div style="padding:10px 0;border-bottom:1px solid #E5E7EB;display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:13px"><strong>${a.title.slice(0,50)}</strong>... <span style="color:var(--muted)">${a.date}</span></span>
+          <span class="status-badge ${a.status}">${a.status}</span>
+        </div>
+      `).join('');
+    document.getElementById('recent-articles').innerHTML = recentsHtml;
+  }
+  else if(page === 'articles'){
+    html = `
+      <div style="margin-bottom:16px">
+        <button class="btn-primary" onclick="showArticleForm(null)">+ New Article</button>
+      </div>
+      <div class="table-container">
+        <div class="table-header">
+          <span>ID</span>
+          <span>Title</span>
+          <span>Category</span>
+          <span>Status</span>
+          <span>Date</span>
+          <span>Actions</span>
+        </div>
+        <div id="articles-table"></div>
+      </div>
+    `;
+    document.getElementById('admin-body').innerHTML = html;
+    
+    const tableHtml = articles.length === 0 ? '<div class="loading">No articles yet</div>' :
+      articles.map(a => `
+        <div class="table-row">
+          <span>${a.id}</span>
+          <span><strong>${a.title.slice(0,40)}</strong></span>
+          <span>${a.cat}</span>
+          <span><span class="status-badge ${a.status}">${a.status}</span></span>
+          <span>${a.date}</span>
+          <span>
+            <button class="btn-small" onclick="showArticleForm(${a.id})">Edit</button>
+            <button class="btn-small btn-danger" onclick="deleteArticle(${a.id})">Delete</button>
+          </span>
+        </div>
+      `).join('');
+    document.getElementById('articles-table').innerHTML = tableHtml;
+  }
+  else if(page === 'media'){
+    html = `
+      <div style="margin-bottom:16px">
+        <button class="btn-primary" onclick="showMediaUpload()">+ Upload Media</button>
+      </div>
+      <div class="table-container">
+        <div class="table-header">
+          <span>Preview</span>
+          <span>Filename</span>
+          <span>Size</span>
+          <span>Uploaded</span>
+          <span>Actions</span>
+        </div>
+        <div id="media-table"></div>
+      </div>
+    `;
+    document.getElementById('admin-body').innerHTML = html;
+    
+    const tableHtml = mediaItems.length === 0 ? '<div class="loading">No media uploaded yet</div>' :
+      mediaItems.map(m => `
+        <div class="table-row" style="grid-template-columns:80px 1fr 100px 120px 80px">
+          <img src="${m.url}" style="width:60px;height:60px;object-fit:cover;border-radius:4px;" alt="${m.name}">
+          <span>${m.name}</span>
+          <span>${(m.size / 1024).toFixed(1)} KB</span>
+          <span>${m.uploaded || 'Just now'}</span>
+          <button class="btn-small btn-danger" onclick="deleteMedia('${m.id}')">Delete</button>
+        </div>
+      `).join('');
+    document.getElementById('media-table').innerHTML = tableHtml;
+  }
+  else if(page === 'audit'){
+    html = `<div id="audit-log" class="loading">Loading audit log...</div>`;
+    document.getElementById('admin-body').innerHTML = html;
+    loadAuditLog();
+  }
+  else {
+    html = '<div class="loading">Feature coming soon</div>';
+    document.getElementById('admin-body').innerHTML = html;
+  }
+}
+
+function showArticleForm(id){
+  const article = id ? articles.find(a => a.id === id) : null;
+  const html = `
+    <div style="max-width:800px">
+      <h2 style="font-size:18px;font-weight:600;margin-bottom:20px">${article ? 'Edit Article' : 'Create New Article'}</h2>
+      
+      <div class="form-group">
+        <label class="form-label">Title</label>
+        <input id="fTitle" class="form-input" value="${article?.title || ''}" placeholder="Article headline">
+      </div>
+      
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div class="form-group">
+          <label class="form-label">Category</label>
+          <select id="fCat" class="form-select">
+            <option ${article?.cat === 'Politics' ? 'selected' : ''}>Politics</option>
+            <option ${article?.cat === 'Technology' ? 'selected' : ''}>Technology</option>
+            <option ${article?.cat === 'Business' ? 'selected' : ''}>Business</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Slug</label>
+          <input id="fSlug" class="form-input" value="${article?.slug || ''}" placeholder="url-friendly-slug">
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Excerpt</label>
+        <input id="fExcerpt" class="form-input" value="${article?.excerpt || ''}" placeholder="Brief summary">
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Featured Image</label>
+        <div class="form-file">
+          <input id="fImage" class="file-input form-input" type="file" accept="image/*" onchange="previewImage()">
+          <div class="file-preview" id="fImagePreview">${article?.image ? `<img src="${article.image}">` : 'Preview'}</div>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Content</label>
+        <textarea id="fContent" class="form-textarea" placeholder="Article body (basic HTML supported)">${article?.body || ''}</textarea>
+      </div>
+      
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div class="form-group">
+          <label class="form-label">Read Time</label>
+          <input id="fRead" class="form-input" value="${article?.read || '5 min'}" placeholder="5 min">
+        </div>
+        <div class="form-group">
+          <label class="form-label">
+            <input id="fFeatured" type="checkbox" ${article?.featured ? 'checked' : ''} style="margin-right:6px">
+            Featured Article
+          </label>
+        </div>
+      </div>
+      
+      <div class="form-actions">
+        <button class="btn-primary" onclick="saveArticle('published')">Publish</button>
+        <button class="btn-primary" style="background:#7C3AED" onclick="saveArticle('draft')">Save as Draft</button>
+        <button class="btn-secondary" onclick="adminNav('articles')">Cancel</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('admin-body').innerHTML = html;
+}
+
+function previewImage(){
+  const file = document.getElementById('fImage').files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    document.getElementById('fImagePreview').innerHTML = `<img src="${e.target.result}">`;
+  };
+  reader.readAsDataURL(file);
+}
+
+async function saveArticle(status){
+  if(!authToken){
+    showToast('Session expired. Please login again.', 'error');
+    return;
+  }
+  
+  const title = document.getElementById('fTitle').value.trim();
+  const cat = document.getElementById('fCat').value;
+  const excerpt = document.getElementById('fExcerpt').value.trim();
+  const slug = document.getElementById('fSlug').value || title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+  const body = document.getElementById('fContent').value;
+  const featured = document.getElementById('fFeatured').checked;
+  const imageFile = document.getElementById('fImage').files[0];
+  
+  if(!title || !cat || !excerpt){
+    showToast('Please fill all required fields', 'error');
+    return;
+  }
+  
+  try {
+    let imageUrl = null;
+    
+    // Upload image if provided
+    if(imageFile){
+      const formData = new FormData();
+      formData.append('file', imageFile);
+      
+      const uploadRes = await fetch(`${API_URL}/api/media/upload`, {
+        method: 'POST',
+        headers: {'Authorization': `Bearer ${authToken}`},
+        body: formData
+      });
+      
+      if(uploadRes.ok){
+        const uploadData = await uploadRes.json();
+        imageUrl = uploadData.url;
+      }
+    }
+    
+    const articleData = {
+      title, cat, excerpt, slug, body, featured, status,
+      image: imageUrl,
+      read: document.getElementById('fRead').value || '5 min',
+      views: 0
+    };
+    
+    const endpoint = `${API_URL}/api/articles${document.getElementById('fTitle').value ? '' : '/new'}`;
+    const method = document.querySelector('#admin-body').innerHTML.includes('Edit') ? 'PUT' : 'POST';
+    
+    const res = await fetch(endpoint, {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken}`
+      },
+      body: JSON.stringify(articleData)
+    });
+    
+    if(!res.ok) throw new Error('Failed to save');
+    
+    showToast(`Article ${status}!`, 'success');
+    await loadAdminData();
+    adminNav('articles');
+    
+  } catch(err) {
+    showToast(err.message || 'Error saving article', 'error');
+  }
+}
+
+function deleteArticle(id){
+  if(!confirm('Delete this article?')) return;
+  
+  fetch(`${API_URL}/api/articles/${id}`, {
+    method: 'DELETE',
+    headers: {'Authorization': `Bearer ${authToken}`}
+  })
+  .then(r => r.ok ? true : r.json().then(d => {throw new Error(d.message)}))
+  .then(() => {
+    showToast('Article deleted', 'success');
+    loadAdminData();
+    adminNav('articles');
+  })
+  .catch(err => showToast(err.message || 'Delete failed', 'error'));
+}
+
+function showMediaUpload(){
+  const html = `
+    <div style="max-width:600px">
+      <h2 style="font-size:18px;font-weight:600;margin-bottom:20px">Upload Media</h2>
+      
+      <div class="form-group">
+        <label class="form-label">Select Image</label>
+        <input id="mediaFile" type="file" accept="image/*" class="form-input" onchange="previewMediaUpload()">
+      </div>
+      
+      <div class="file-preview" id="mediaPreview" style="margin-bottom:16px;">Select a file</div>
+      
+      <div class="form-actions">
+        <button class="btn-primary" onclick="uploadMedia()">Upload to Server</button>
+        <button class="btn-secondary" onclick="adminNav('media')">Cancel</button>
+      </div>
+      <p style="font-size:12px;color:var(--muted);margin-top:12px">💡 Tip: Images are stored on the backend server. Maximum 10MB. Supported: JPG, PNG, WebP</p>
+    </div>
+  `;
+  document.getElementById('admin-body').innerHTML = html;
+}
+
+function previewMediaUpload(){
+  const file = document.getElementById('mediaFile').files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    document.getElementById('mediaPreview').innerHTML = `<img src="${e.target.result}">`;
+  };
+  reader.readAsDataURL(file);
+}
+
+async function uploadMedia(){
+  const file = document.getElementById('mediaFile').files[0];
+  if(!file){
+    showToast('Please select an image', 'error');
+    return;
+  }
+  
+  const formData = new FormData();
+  formData.append('file', file);
+  
+  try {
+    const res = await fetch(`${API_URL}/api/media/upload`, {
+      method: 'POST',
+      headers: {'Authorization': `Bearer ${authToken}`},
+      body: formData
+    });
+    
+    if(!res.ok) throw new Error('Upload failed');
+    
+    showToast('Media uploaded successfully!', 'success');
+    await loadAdminData();
+    adminNav('media');
+  } catch(err) {
+    showToast(err.message || 'Upload failed', 'error');
+  }
+}
+
+function deleteMedia(id){
+  if(!confirm('Delete this media?')) return;
+  
+  fetch(`${API_URL}/api/media/${id}`, {
+    method: 'DELETE',
+    headers: {'Authorization': `Bearer ${authToken}`}
+  })
+  .then(() => {
+    showToast('Media deleted', 'success');
+    loadAdminData();
+    adminNav('media');
+  })
+  .catch(err => showToast('Delete failed', 'error'));
+}
+
+function loadAuditLog(){
+  fetch(`${API_URL}/api/audit`, {
+    headers: {'Authorization': `Bearer ${authToken}`}
+  })
+  .then(r => r.json())
+  .then(logs => {
+    const html = logs.length === 0 ? '<div class="loading">No audit logs</div>' :
+      `<div class="table-container">
+        <div class="table-header" style="grid-template-columns:160px 120px 1fr 100px">
+          <span>Timestamp</span>
+          <span>Event</span>
+          <span>Details</span>
+          <span>User</span>
+        </div>
+        ${logs.map(l => `
+          <div class="table-row" style="grid-template-columns:160px 120px 1fr 100px;font-size:12px">
+            <span style="color:var(--muted)">${new Date(l.timestamp).toLocaleString('en-IN', {month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'})}</span>
+            <span><span class="status-badge" style="background:#3B6FD422;color:#3B6FD4">${l.type}</span></span>
+            <span>${l.details}</span>
+            <span style="font-size:10px;color:var(--muted)">${l.userId}</span>
+          </div>
+        `).join('')}
+      </div>`;
+    document.getElementById('audit-log').innerHTML = html;
+  })
+  .catch(err => {
+    document.getElementById('audit-log').innerHTML = '<div class="loading">Error loading audit log</div>';
+  });
+}
+
+// ===== SCREEN NAVIGATION =====
+function showScreen(name){
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(name + '-screen').classList.add('active');
+  
+  if(name === 'website'){
+    loadArticles();
+  }
+}
+
+function viewArticles(cat){
+  // Filter and show articles by category
+}
+
+// ===== UTILITIES =====
+function showToast(msg, type = 'info'){
+  const container = document.getElementById('toast-container');
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.textContent = msg;
+  container.appendChild(toast);
+  setTimeout(() => toast.remove(), 4000);
+}
+
+init();
+</script>
+
+</body>
+</html>
